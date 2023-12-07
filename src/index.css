@@ -1,0 +1,47 @@
+button {
+  width: 100%;
+}
+
+.icon {
+  padding: 0 20px;
+}
+
+
+.btn-add {
+  width: 150px;
+  margin-top: 7px;
+  margin-left: 10px;
+}
+
+.search-input {
+  min-width: 300px;
+}
+
+.field {
+  width: 100%;
+}
+
+.dropdown-item:hover {
+  background-color: #ddd;
+}
+
+html {
+  background-color: #f1f5f9 !important;
+}
+
+.table {
+  width: 100%;
+}
+
+
+.icon-click {
+  cursor: pointer;
+}
+
+/* th {
+  text-align: center !important;
+} */
+
+th {
+  text-align: left !important;
+}
