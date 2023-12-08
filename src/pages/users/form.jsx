@@ -2,17 +2,16 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect } from "react";
 import { Button, Card, Columns } from "react-bulma-components";
 import { Controller, useForm } from "react-hook-form";
-import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import * as yup from "yup";
 
 import { Input } from "../../components";
-import { createUser, getById } from "./requests";
+import { createUser, getById, updateUser } from "./requests";
 import { Flex, Spacing } from "./styles";
 
 export function FormUser() {
-  const isAdmin = useSelector((state) => state.user);
+  const isAdmin = useSelector((state) => state?.user?.data?.isAdmin);
   const { state } = useLocation();
 
   useEffect(() => {
@@ -42,10 +41,10 @@ export function FormUser() {
     resolver: yupResolver(schema),
   });
   function save(data) {
-    if (data?.isAdmin) {
+    if (!state?.id) {
       createUser(data, navigate);
     } else {
-      toast.error("Você não é um administrador");
+      updateUser(state.id, data, navigate);
     }
   }
   useEffect(() => {
@@ -60,7 +59,7 @@ export function FormUser() {
         setValue("number", response.number);
         setValue("city", response.city);
         setValue("state", response.state);
-        setValue("work", response.address);
+        setValue("work", response.work);
         setValue("phone", response.phone);
         setValue("cpf", response.cpf);
       }
@@ -73,7 +72,9 @@ export function FormUser() {
       <Card>
         <form onSubmit={handleSubmit(save)}>
           <Card.Header>
-            <Card.Header.Title>Adicionar Usuário</Card.Header.Title>
+            <Card.Header.Title>
+              {state?.id ? "Editar Usuário" : "Adicionar Usuário"}
+            </Card.Header.Title>
           </Card.Header>
           <Card.Content>
             <Columns>

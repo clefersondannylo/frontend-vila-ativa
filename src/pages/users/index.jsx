@@ -3,8 +3,9 @@ import { Card, Columns, Form, Pagination, Table } from "react-bulma-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { HeaderComponent } from "../../components";
+import { HeaderComponent, ModalDelete } from "../../components";
 import { userInRequest } from "../../store/modules/users/actions";
+import { removeUser, updateUser } from "./requests";
 import { Flex, Spacing } from "./styles";
 
 export function Users() {
@@ -13,28 +14,38 @@ export function Users() {
   const [skip, setSkip] = useState(0);
   const [limit, setLimit] = useState(20);
   const [page, setPage] = useState(1);
+  const [id, setId] = useState(null);
+  const [remove, setRemove] = useState(false);
 
   const dispatch = useDispatch();
   const state = useSelector((state) => state.users);
 
   useEffect(() => {
+    console.log(state);
     dispatch(userInRequest(skip, limit, search));
-    console.log(search);
+    // conferir a questão se uso o limite ou o take
   }, [search, dispatch, limit, skip]);
-
-  // useEffect(() => {
-  //   if (state.loading) {
-  //     console.log(state.loading, "Carregando");
-  //   }
-  // }, [state]);
-  // useEffect(() => {
-  //   if (!state.loading) {
-  //     console.log(state.loading, "Carregou");
-  //   }
-  // }, [state]);
 
   function alterPage(page) {
     return page;
+  }
+
+  function clickRemove(id) {
+    setRemove(true);
+    setId(id);
+  }
+
+  function alterStatus(id, value) {
+    const data = { status: value };
+    updateUser(id, data, navigate);
+  }
+  function alterAdmin(id, value) {
+    const data = { isAdmin: value };
+    updateUser(id, data, navigate);
+  }
+
+  function deleteUser() {
+    removeUser(id, setRemove, dispatch, skip, search);
   }
 
   return (
@@ -80,7 +91,12 @@ export function Users() {
                           <th>
                             <Form.Field>
                               <Form.Control>
-                                <Form.Checkbox checked={data.isAdmin}>
+                                <Form.Checkbox
+                                  checked={data.isAdmin}
+                                  onClick={(ev) =>
+                                    alterAdmin(data.id, ev.target.checked)
+                                  }
+                                >
                                   Admin
                                 </Form.Checkbox>
                               </Form.Control>
@@ -89,7 +105,12 @@ export function Users() {
                           <th>
                             <Form.Field>
                               <Form.Control>
-                                <Form.Checkbox checked={data.status}>
+                                <Form.Checkbox
+                                  checked={data.status}
+                                  onClick={(ev) =>
+                                    alterStatus(data.id, ev.target.checked)
+                                  }
+                                >
                                   Ativo
                                 </Form.Checkbox>
                               </Form.Control>
@@ -108,7 +129,7 @@ export function Users() {
                               />
                               <Spacing />
                               <i
-                                onClick={() => console.log("deletar")}
+                                onClick={() => clickRemove(data.id)}
                                 className="fa-solid fa-trash has-text-danger icon-click"
                               />
                             </Flex>
@@ -130,6 +151,15 @@ export function Users() {
           </Card>
         </Columns.Column>
       </Columns>
+      {remove && (
+        <ModalDelete
+          open={remove}
+          close={() => setRemove(false)}
+          title="Remover Usuário"
+          text={"Tem certeza que deseja remover esse usuário"}
+          confirm={deleteUser}
+        />
+      )}
     </>
   );
 }

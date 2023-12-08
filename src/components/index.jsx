@@ -1,5 +1,7 @@
 import { HeaderComponent } from "./header";
 import Input from "./input";
+import { ModalDelete } from "./modalDelete";
 import { NavigateComponent } from "./navigate";
 
-export { Input, NavigateComponent, HeaderComponent };
+ModalDelete;
+export { Input, NavigateComponent, HeaderComponent, ModalDelete };
