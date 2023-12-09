@@ -8,7 +8,14 @@ import * as yup from "yup";
 
 import { Input } from "../../components";
 import { authInRequest } from "../../store/modules/auth/actions";
-import { BodyForm, BodyImage, Content, ForgotPassword, SubTitle, Title } from "./styles";
+import {
+  BodyForm,
+  BodyImage,
+  Content,
+  ForgotPassword,
+  SubTitle,
+  Title,
+} from "./styles";
 
 export function Login() {
   const schema = yup.object({
