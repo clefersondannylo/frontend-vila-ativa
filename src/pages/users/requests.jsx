@@ -62,3 +62,23 @@ export async function removeUser(id, setRemove, dispatch, skip, limit, search) {
     toast.error("Não foi possível remover o usuário");
   }
 }
+
+export async function alterStatusAndAdmin(
+  id,
+  data,
+  dispatch,
+  skip,
+  take,
+  search
+) {
+  toast.loading("Salvando usuário");
+  try {
+    await api.put(`/user/${id}`, data);
+    toast.dismiss();
+    toast.success("Usuário editado com sucesso");
+    dispatch(userInRequest(skip, take, search));
+  } catch (error) {
+    toast.dismiss();
+    toast.error("Não foi possível editar o usuário");
+  }
+}

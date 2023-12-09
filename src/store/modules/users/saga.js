@@ -10,7 +10,7 @@ function* getUsers({ payload }) {
   try {
     const response = yield call(
       api.get,
-      `/user?skip=${skip}&limit=${limit}&search=${search}`
+      `/user?skip=${skip}&take=${limit}&search=${search}`
     );
     const users = response.data;
     yield put(userInSuccess(users));

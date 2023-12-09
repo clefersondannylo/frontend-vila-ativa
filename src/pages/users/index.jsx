@@ -5,7 +5,8 @@ import { useNavigate } from "react-router-dom";
 
 import { HeaderComponent, ModalDelete } from "../../components";
 import { userInRequest } from "../../store/modules/users/actions";
-import { removeUser, updateUser } from "./requests";
+import { pagination } from "../../utils/pagination";
+import { alterStatusAndAdmin, removeUser } from "./requests";
 import { Flex, Spacing } from "./styles";
 
 export function Users() {
@@ -21,13 +22,13 @@ export function Users() {
   const state = useSelector((state) => state.users);
 
   useEffect(() => {
-    console.log(state);
     dispatch(userInRequest(skip, limit, search));
+    console.log(state);
     // conferir a questão se uso o limite ou o take
   }, [search, dispatch, limit, skip]);
 
   function alterPage(page) {
-    return page;
+    pagination(page, setSkip, setPage);
   }
 
   function clickRemove(id) {
@@ -37,11 +38,11 @@ export function Users() {
 
   function alterStatus(id, value) {
     const data = { status: value };
-    updateUser(id, data, navigate);
+    alterStatusAndAdmin(id, data, dispatch, skip, limit, search);
   }
   function alterAdmin(id, value) {
     const data = { isAdmin: value };
-    updateUser(id, data, navigate);
+    alterStatusAndAdmin(id, data, dispatch, skip, limit, search);
   }
 
   function deleteUser() {
@@ -93,9 +94,10 @@ export function Users() {
                               <Form.Control>
                                 <Form.Checkbox
                                   checked={data.isAdmin}
-                                  onClick={(ev) =>
-                                    alterAdmin(data.id, ev.target.checked)
-                                  }
+                                  onChange={() => {}}
+                                  onClick={(ev) => {
+                                    alterAdmin(data.id, ev.target.checked);
+                                  }}
                                 >
                                   Admin
                                 </Form.Checkbox>
@@ -107,9 +109,10 @@ export function Users() {
                               <Form.Control>
                                 <Form.Checkbox
                                   checked={data.status}
-                                  onClick={(ev) =>
-                                    alterStatus(data.id, ev.target.checked)
-                                  }
+                                  onChange={() => {}}
+                                  onClick={(ev) => {
+                                    alterStatus(data.id, ev.target.checked);
+                                  }}
                                 >
                                   Ativo
                                 </Form.Checkbox>
