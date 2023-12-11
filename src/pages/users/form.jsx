@@ -24,10 +24,7 @@ export function FormUser() {
       .string()
       .required("Campo obrigatório")
       .email("Digite um e-mail válido"),
-    password: yup
-      .string()
-      .required("Campo obrigatório")
-      .min(6, "Senha precisa ter no mínimo 6 caracteres"),
+    password: yup.string().min(6, "Senha precisa ter no mínimo 6 caracteres"),
   });
 
   const navigate = useNavigate();
