@@ -55,7 +55,6 @@ export async function removeUser(id, setRemove, dispatch, skip, limit, search) {
     toast.success("Usuário removido com sucesso");
     dispatch(userInRequest(skip, limit, search));
     const response = await api.get("/user");
-    // troquei o take por limit
     return response;
   } catch (error) {
     toast.dismiss();

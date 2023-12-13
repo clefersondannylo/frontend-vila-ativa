@@ -24,6 +24,17 @@ export function FormUser() {
       .string()
       .required("Campo obrigatório")
       .email("Digite um e-mail válido"),
+    password: yup
+      .string()
+      .required("Campo obrigatório")
+      .min(6, "Senha precisa ter no mínimo 6 caracteres"),
+  });
+  const schemaUpdate = yup.object({
+    name: yup.string().required("Campo obrigatório"),
+    email: yup
+      .string()
+      .required("Campo obrigatório")
+      .email("Digite um e-mail válido"),
     password: yup.string().min(6, "Senha precisa ter no mínimo 6 caracteres"),
   });
 
@@ -35,7 +46,7 @@ export function FormUser() {
     formState: { errors },
     setValue,
   } = useForm({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(state?.id ? schemaUpdate : schema),
   });
   function save(data) {
     if (!state?.id) {
@@ -283,7 +294,11 @@ export function FormUser() {
             >
               <Flex>
                 <Button
-                  onClick={() => navigate("/associados")}
+                  onClick={() => {
+                    navigate("/associados");
+                    // state.setPage(state.page);
+                    console.log(state.page, "page value");
+                  }}
                   color="danger"
                   type="button"
                 >
