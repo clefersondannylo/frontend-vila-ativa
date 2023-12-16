@@ -1,5 +1,6 @@
+import { useEffect } from "react";
 import { Dropdown, Icon } from "react-bulma-components";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import LogoImg from "../../assets/logo.png";
@@ -8,12 +9,25 @@ import { Content, Header, Logo, LogoName, Menu, Option, WrapperLogo } from "./st
 
 // eslint-disable-next-line react/prop-types
 export function NavigateComponent({ children }) {
+  const state = useSelector((state) => state?.user?.data);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    console.log(state, "state");
+  }, []);
 
   function handleDropdown(value) {
     if (value === "logout") {
       dispatch(exitIn());
+    }
+    if (value === "change-data") {
+      console.log("clicou");
+      navigate("/associados/formulario", {
+        state: {
+          id: state.id,
+        },
+      });
     }
   }
   return (
@@ -62,9 +76,6 @@ export function NavigateComponent({ children }) {
         >
           <Dropdown.Item style={{ cursor: "pointer" }} value="change-data">
             Alterar Dados
-          </Dropdown.Item>
-          <Dropdown.Item style={{ cursor: "pointer" }} value="change-password">
-            Alterar senha
           </Dropdown.Item>
           <Dropdown.Item style={{ cursor: "pointer" }} value="logout">
             Sair

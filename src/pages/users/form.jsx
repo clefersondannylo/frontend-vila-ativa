@@ -13,7 +13,6 @@ import { Flex, Spacing } from "./styles";
 export function FormUser() {
   const isAdmin = useSelector((state) => state?.user?.data?.isAdmin);
   const { state } = useLocation();
-
   useEffect(() => {
     console.log(isAdmin);
   }, [isAdmin]);
@@ -60,16 +59,24 @@ export function FormUser() {
       // eslint-disable-next-line no-inner-declarations
       async function getUser() {
         const response = await getById(state.id);
+        console.log(response);
         setValue("address", response.address);
         setValue("name", response.name);
         setValue("email", response.email);
-        setValue("cep", response.cep);
+        setValue("zip", response.cep);
         setValue("number", response.number);
         setValue("city", response.city);
         setValue("state", response.state);
         setValue("work", response.work);
         setValue("phone", response.phone);
         setValue("cpf", response.cpf);
+        setValue("rg", response.rg);
+        setValue("birthday", response.birthday);
+        setValue("spouse", response.spouse);
+        setValue("terrain", response.terrain);
+        setValue("street", response.street);
+        setValue("situation", response.situation);
+        // setValue("cpf", response.cpf);
       }
       getUser();
     }
@@ -124,8 +131,6 @@ export function FormUser() {
                   )}
                 />
               </Columns.Column>
-            </Columns>
-            <Columns>
               <Columns.Column>
                 <Controller
                   name="password"
@@ -138,6 +143,25 @@ export function FormUser() {
                       typeError="danger"
                       color={errors.password && "danger"}
                       error={errors.password && errors.password.message}
+                      ref={ref}
+                      onChange={onChange}
+                      value={value}
+                    />
+                  )}
+                />
+              </Columns.Column>
+            </Columns>
+            <Columns>
+              <Columns.Column>
+                <Controller
+                  name="rg"
+                  control={control}
+                  render={({ field: { onChange, value, ref } }) => (
+                    <Input
+                      label="RG"
+                      placeholder="Digite o RG"
+                      icon="fa-solid fa-id-badge"
+                      typeError="danger"
                       ref={ref}
                       onChange={onChange}
                       value={value}
@@ -164,6 +188,23 @@ export function FormUser() {
               </Columns.Column>
               <Columns.Column>
                 <Controller
+                  name="birthday"
+                  control={control}
+                  render={({ field: { onChange, value, ref } }) => (
+                    <Input
+                      label="Data de Nascimento"
+                      placeholder="Digite a data de nascimento"
+                      icon="fa-solid fa-cake-candles"
+                      typeError="danger"
+                      ref={ref}
+                      onChange={onChange}
+                      value={value}
+                    />
+                  )}
+                />
+              </Columns.Column>
+              <Columns.Column>
+                <Controller
                   name="phone"
                   control={control}
                   render={({ field: { onChange, value, ref } }) => (
@@ -171,6 +212,23 @@ export function FormUser() {
                       label="Telefone"
                       placeholder="Digite o número de telefone"
                       icon="fa-solid fa-phone"
+                      typeError="danger"
+                      ref={ref}
+                      onChange={onChange}
+                      value={value}
+                    />
+                  )}
+                />
+              </Columns.Column>
+              <Columns.Column>
+                <Controller
+                  name="spouse"
+                  control={control}
+                  render={({ field: { onChange, value, ref } }) => (
+                    <Input
+                      label="Cônjuge"
+                      placeholder="Digite o nome do Cônjuge"
+                      icon="fa-solid fa-people-roof"
                       typeError="danger"
                       ref={ref}
                       onChange={onChange}
@@ -204,7 +262,7 @@ export function FormUser() {
                   control={control}
                   render={({ field: { onChange, value, ref } }) => (
                     <Input
-                      label="Endereço"
+                      label="Endereço de onde reside"
                       placeholder="Digite o endereço"
                       icon="fa-solid fa-road"
                       typeError="danger"
@@ -217,12 +275,12 @@ export function FormUser() {
               </Columns.Column>
               <Columns.Column>
                 <Controller
-                  name="number"
+                  name="terrain"
                   control={control}
                   render={({ field: { onChange, value, ref } }) => (
                     <Input
-                      label="N. da casa"
-                      placeholder="Digite o número da casa"
+                      label="Tipo de lote"
+                      placeholder="Digite o status do lote"
                       icon="fa-solid fa-1"
                       typeError="danger"
                       ref={ref}
@@ -232,8 +290,61 @@ export function FormUser() {
                   )}
                 />
               </Columns.Column>
+              <Columns.Column>
+                <Controller
+                  name="street"
+                  control={control}
+                  render={({ field: { onChange, value, ref } }) => (
+                    <Input
+                      label="Nome da rua"
+                      placeholder="Digite a rua"
+                      icon="fa-solid fa-1"
+                      typeError="danger"
+                      ref={ref}
+                      onChange={onChange}
+                      value={value}
+                      siz
+                    />
+                  )}
+                />
+              </Columns.Column>
+              <Columns.Column>
+                <Controller
+                  name="number"
+                  control={control}
+                  render={({ field: { onChange, value, ref } }) => (
+                    <Input
+                      label="lote/quadra"
+                      placeholder="Digite o lote e a quadra"
+                      icon="fa-solid fa-1"
+                      typeError="danger"
+                      ref={ref}
+                      onChange={onChange}
+                      value={value}
+                      siz
+                    />
+                  )}
+                />
+              </Columns.Column>
             </Columns>
             <Columns>
+              {/* <Columns.Column>
+                <Controller
+                  name="city"
+                  control={control}
+                  render={({ field: { onChange, value, ref } }) => (
+                    <Input
+                      label="Cidade"
+                      placeholder="Digite uma senha"
+                      icon="fa-solid fa-map-pin"
+                      typeError="danger"
+                      ref={ref}
+                      onChange={onChange}
+                      value={value}
+                    />
+                  )}
+                />
+              </Columns.Column> */}
               <Columns.Column>
                 <Controller
                   name="city"
@@ -270,13 +381,30 @@ export function FormUser() {
               </Columns.Column>
               <Columns.Column>
                 <Controller
-                  name="cep"
+                  name="zip"
                   control={control}
                   render={({ field: { onChange, value, ref } }) => (
                     <Input
                       label="CEP"
                       placeholder="Digite o CEP"
                       icon="fa-solid fa-location-crosshairs"
+                      typeError="danger"
+                      ref={ref}
+                      onChange={onChange}
+                      value={value}
+                    />
+                  )}
+                />
+              </Columns.Column>
+              <Columns.Column>
+                <Controller
+                  name="situation"
+                  control={control}
+                  render={({ field: { onChange, value, ref } }) => (
+                    <Input
+                      label="Situação"
+                      placeholder="Digite a situação"
+                      icon="fa-solid fa-map-pin"
                       typeError="danger"
                       ref={ref}
                       onChange={onChange}
@@ -296,8 +424,6 @@ export function FormUser() {
                 <Button
                   onClick={() => {
                     navigate("/associados");
-                    // state.setPage(state.page);
-                    console.log(state.page, "page value");
                   }}
                   color="danger"
                   type="button"

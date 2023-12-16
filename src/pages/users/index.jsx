@@ -23,8 +23,6 @@ export function Users() {
 
   useEffect(() => {
     dispatch(userInRequest(skip, limit, search));
-    console.log(state);
-    // conferir a questão se uso o limite ou o take
   }, [search, dispatch, limit, skip]);
 
   function alterPage(page) {
@@ -125,7 +123,9 @@ export function Users() {
                               <i
                                 onClick={() =>
                                   navigate("/associados/formulario", {
-                                    state: { id: data.id },
+                                    state: {
+                                      id: data.id,
+                                    },
                                   })
                                 }
                                 className="fa-solid fa-pen has-text-success icon-click"
