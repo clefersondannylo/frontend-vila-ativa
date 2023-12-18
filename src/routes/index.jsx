@@ -11,8 +11,8 @@ FormUser;
 export function RoutesComponent() {
   return (
     <Routes>
-      <Route path="/login" element={<Login />} />
       <Route path="/" element={<Private Component={Home} />} />
+      <Route path="/login" element={<Login />} />
       <Route path="/associados" element={<Private Component={Users} />} />
       <Route path="/relatorios" element={<Private Component={Reports} />} />
       <Route
